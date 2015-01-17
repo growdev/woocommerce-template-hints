@@ -41,6 +41,9 @@ None.
 == Screenshots ==
 
 1. Product page with template hints on
+2. Category page with template hints on
+3. Cart page with template hints on
+
 
 == Changelog ==
 

@@ -31,6 +31,17 @@ Text Domain: woocommerce-template-hints
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 
+// TODO add overview class
+
+// TODO add WC check and notice
+
+// TODO add settings to WC > System Status > Tab
+
+// TODO Add color for native template, color for override
+
+// TODO Add info bar for path to template
+
+
 
 add_action('woocommerce_before_template_part', 'wcth_before_template',30, 4);
 function wcth_before_template( $template_name, $template_path, $located, $args ) {
