@@ -1,5 +1,5 @@
 === WooCommerce Template Hints ===
-Contributors: shopplugins, growdev
+Contributors: shopplugins, growdev, bryceadams
 Donate link: http://www.shopplugins.com
 Tags: woocommerce, ecommerce, woocommerce theme, woocommerce helper
 Requires at least: 3.6
