@@ -33,25 +33,121 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 // TODO add overview class
 
-// TODO add WC check and notice
-
 // TODO add settings to WC > System Status > Tab
 
-// TODO Add color for native template, color for override
+/**
+ * WooCommerce Template Hints Main Class
+ *
+ * @package  WooCommerce Template Hints
+ */
 
-// TODO Add info bar for path to template
+class WC_Template_Hints {
 
+	protected static $instance = null;
 
+    function __construct() {
 
-add_action('woocommerce_before_template_part', 'wcth_before_template',30, 4);
-function wcth_before_template( $template_name, $template_path, $located, $args ) {
+    	if ( class_exists( 'WooCommerce' ) ) {
 
-	echo '<fieldset style="border: 1px red solid; padding: 3px; ">';
-    echo "<legend style='padding: 1px; background: red; color: white; font-size: 10px;'>template: " . $template_name . " </legend>";
+    		if ( $this::can_see() ) {
+
+    			add_action( 'wp_head', array( $this, 'css' ) );
+		    	add_action( 'woocommerce_before_template_part', array( $this, 'output_before_template' ), 30, 4 );
+		 		add_action( 'woocommerce_after_template_part', array( $this, 'output_after_template' ), 30, 4 );
+
+		 	}
+
+	 	} else {
+
+	 		add_action( 'admin_notices', array( $this, 'woocommerce_missing_notice' ) );
+
+	 	}
+
+    }
+
+	/**
+	 * Start the Class when called
+	 */
+	public static function get_instance() {
+	  // If the single instance hasn't been set, set it now.
+	  if ( null == self::$instance ) {
+		self::$instance = new self;
+	  }
+	  return self::$instance;
+	}
+
+	/**
+	 * Inline CSS
+	 */
+	public function css() { ?>
+
+		<style type="text/css">
+			fieldset.wcth {
+				border: 1px red solid;
+				padding: 25px 3px 3px;
+			}
+			fieldset.wcth legend {
+				padding: 2px 6px;
+				background: red;
+				color: white;
+				font-size: 10px;
+			}
+			fieldset.wcth.wcth-theme {
+				border: 1px blue solid;
+			}
+			fieldset.wcth.wcth-theme legend {
+				background: blue;
+			}
+		</style>
+
+	<?php }
+
+	/**
+	 * Output: Before template
+	 *
+	 * @return string
+	 */
+	public function output_before_template( $template_name, $template_path, $located, $args ) {
+
+		$core = ( strpos( $located, 'wp-content/plugins/' ) !== false ) ? 'core' : 'theme';
+
+		echo '<fieldset class="wcth wcth-' . $core . '">';
+	    echo '<legend title="' . $located . '">template: ' . $template_name . ' </legend>';
+
+	}
+
+	/**
+	 * Output: After template
+	 *
+	 * @return string
+	 */
+	public function output_after_template( $template_name, $template_path, $located, $args ) {
+
+		echo "</fieldset>";
+
+	}
+
+	/**
+	 * Method: Can See (returns true for those with edit_posts cap but can be filtered through wcth_can_see)
+	 *
+	 * @return bool
+	 */
+	private static function can_see() {
+		
+		$return = current_user_can( 'edit_posts' ) ? true : false;
+		return apply_filters( 'wcth_can_see', $return );
+
+	}
+
+	/**
+	 * WooCommerce fallback notice.
+	 *
+	 * @return string
+	 */
+	public function woocommerce_missing_notice() {
+		echo '<div class="error"><p>' . sprintf( __( 'WooCommerce Template Hints requires %s to be installed and active.', 'woocommerce-template-hints' ), '<a href="http://woocommerce.com/" target="_blank">' . __( 'WooCommerce', 'woocommerce-template-hints' ) . '</a>' ) . '</p></div>';
+	}
+
 }
 
-add_action('woocommerce_after_template_part', 'wcth_after_template',30, 4);
-function wcth_after_template( $template_name, $template_path, $located, $args ) {
-	echo "</fieldset>";
-}
-
+add_action( 'plugins_loaded', array( 'WC_Template_Hints', 'get_instance' ) );
