@@ -30,9 +30,6 @@ Text Domain: woocommerce-template-hints
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-
-// TODO add overview class
-
 // TODO add settings to WC > System Status > Tab
 
 /**
@@ -45,6 +42,9 @@ class WC_Template_Hints {
 
 	protected static $instance = null;
 
+	/**
+	 *  Constructor
+	 */
     function __construct() {
 
     	if ( class_exists( 'WooCommerce' ) ) {
@@ -67,6 +67,8 @@ class WC_Template_Hints {
 
 	/**
 	 * Start the Class when called
+	 *
+	 * @return WC_Template_Hints
 	 */
 	public static function get_instance() {
 	  // If the single instance hasn't been set, set it now.
@@ -85,6 +87,7 @@ class WC_Template_Hints {
 			fieldset.wcth {
 				border: 1px red solid;
 				padding: 25px 3px 3px;
+				margin: 5px;
 			}
 			fieldset.wcth legend {
 				padding: 2px 6px;
@@ -105,10 +108,14 @@ class WC_Template_Hints {
 	/**
 	 * Output: Before template
 	 *
+	 * @param string $template_name
+	 * @param string $template_path
+	 * @param string $located       Path to the located template
 	 * @return string
 	 */
 	public function output_before_template( $template_name, $template_path, $located, $args ) {
 
+		// TODO account for 3rd party plugins' templates that could be in the plugin directory
 		$core = ( strpos( $located, 'wp-content/plugins/' ) !== false ) ? 'core' : 'theme';
 
 		echo '<fieldset class="wcth wcth-' . $core . '">';
