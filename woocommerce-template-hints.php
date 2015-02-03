@@ -30,7 +30,6 @@ Text Domain: woocommerce-template-hints
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
-// TODO add settings to WC > System Status > Tab
 
 /**
  * WooCommerce Template Hints Main Class
