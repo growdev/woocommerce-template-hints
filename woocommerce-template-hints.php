@@ -115,8 +115,7 @@ class WC_Template_Hints {
 	public function output_before_template( $template_name, $template_path, $located, $args ) {
 
 		// TODO account for 3rd party plugins' templates that could be in the plugin directory
-		$core = ( strpos( $located, 'wp-content/plugins/' ) !== false ) ? 'core' : 'theme';
-
+		$core = ( strpos( $located, 'themes' ) ) ? 'theme' : 'core';
 		echo '<fieldset class="wcth wcth-' . $core . '">';
 	    echo '<legend title="' . $located . '">template: ' . $template_name . ' </legend>';
 
