@@ -3,7 +3,7 @@ Contributors: shopplugins, growdev, bryceadams
 Donate link: http://www.shopplugins.com
 Tags: woocommerce, ecommerce, woocommerce theme, woocommerce helper, design helper, development helper
 Requires at least: 3.6
-Tested up to: 4.1
+Tested up to: 4.3.0
 Stable tag: 1.0.0
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
